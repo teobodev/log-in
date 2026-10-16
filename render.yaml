@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: login-motion-lab
+    runtime: node
+    plan: 0.5c-512mb
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/session
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATA_DIR
+        value: /var/data
+      - key: TRUST_PROXY
+        value: "true"
+      - key: SESSION_SECRET
+        generateValue: true
+    disk:
+      name: login-motion-data
+      mountPath: /var/data
+      sizeGB: 1
